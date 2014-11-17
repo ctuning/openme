@@ -43,8 +43,8 @@ public class openme
                file_name - name of the file to store json object
 
        Output: {
-                 cm_return       - return code = 0, if successful
-                 (cm_error)      - error text if return code > 0
+                 return       - return code = 0, if successful
+                 (error)      - error text if return code > 0
                }
     */
 
@@ -57,8 +57,8 @@ public class openme
     }
     catch (IOException ex)
     {
-      r.put("cm_return", new Long(1));
-      r.put("cm_error", "can't open json file for writing ("+ex.getMessage()+") ...");
+      r.put("return", new Long(1));
+      r.put("error", "can't open json file for writing ("+ex.getMessage()+") ...");
       return r;
     }
 
@@ -77,13 +77,13 @@ public class openme
       }
       catch (Exception ex1)
       {
-         r.put("cm_return", new Long(1));
-         r.put("cm_error", "can't close json file ("+ex1.getMessage()+") ...");
+         r.put("return", new Long(1));
+         r.put("error", "can't close json file ("+ex1.getMessage()+") ...");
          return r;
       }
 
-      r.put("cm_return", new Long(1));
-      r.put("cm_error", "can't write json file ("+ex.getMessage()+") ...");
+      r.put("return", new Long(1));
+      r.put("error", "can't write json file ("+ex.getMessage()+") ...");
       return r;
     }
 
@@ -93,12 +93,12 @@ public class openme
     }
     catch (Exception ex)
     {
-      r.put("cm_return", new Long(1));
-      r.put("cm_error", "can't close json file ("+ex.getMessage()+") ...");
+      r.put("return", new Long(1));
+      r.put("error", "can't close json file ("+ex.getMessage()+") ...");
       return r;
     }
 
-    r.put("cm_return", new Long(0));
+    r.put("return", new Long(0));
     return r;
   }
 
@@ -169,9 +169,9 @@ public class openme
        Input: file_name - name of the file to load
 
        Output: {
-                 cm_return   - return code = 0, if successful
-                 (cm_error)  - error text if return code > 0
-                 cm_array    - cJSON object, if success
+                 return   - return code = 0, if successful
+                 (error)  - error text if return code > 0
+                 array    - cJSON object, if success
     */
 
     JSONObject r=new JSONObject();
@@ -183,8 +183,8 @@ public class openme
     }
     catch (IOException ex)
     {
-      r.put("cm_return", new Long(1));
-      r.put("cm_error", "can't open json file for writing ("+ex.getMessage()+") ...");
+      r.put("return", new Long(1));
+      r.put("error", "can't open json file for writing ("+ex.getMessage()+") ...");
       return r;
     }
 
@@ -205,13 +205,13 @@ public class openme
       }
       catch (Exception ex1)
       {
-         r.put("cm_return", new Long(1));
-         r.put("cm_error", "can't close json file ("+ex1.getMessage()+") ...");
+         r.put("return", new Long(1));
+         r.put("error", "can't close json file ("+ex1.getMessage()+") ...");
          return r;
       }
 
-      r.put("cm_return", new Long(1));
-      r.put("cm_error", "can't read json file ("+ex.getMessage()+") ...");
+      r.put("return", new Long(1));
+      r.put("error", "can't read json file ("+ex.getMessage()+") ...");
       return r;
     }
 
@@ -221,8 +221,8 @@ public class openme
     }
     catch (Exception ex)
     {
-      r.put("cm_return", new Long(1));
-      r.put("cm_error", "can't close json file ("+ex.getMessage()+") ...");
+      r.put("return", new Long(1));
+      r.put("error", "can't close json file ("+ex.getMessage()+") ...");
       return r;
     }
 
@@ -235,13 +235,13 @@ public class openme
     }
     catch (ParseException ex)
     {
-      r.put("cm_return", new Long(1));
-      r.put("cm_error", "can't parse json output ("+ex+") ...");
+      r.put("return", new Long(1));
+      r.put("error", "can't parse json output ("+ex+") ...");
       return r;
     }
     
-    r.put("cm_return", new Long(0));
-    r.put("cm_array", a);
+    r.put("return", new Long(0));
+    r.put("array", a);
 
     return r;
   }
@@ -253,14 +253,14 @@ public class openme
     Convert string to sha1
 
     Input:  {
-              cm_string       - string
+              string       - string
             }
 
     Output: {
-              cm_return             - return code >0 if not authentificated
-              cm_string_sha1        - password in SHA1 (digest)
-              cm_string_sha1_hex    - password in SHA1 (digest in hex)
-              cm_string_sha1_base64 - BASE64 (SHA1 digest) - compatible with htpasswd format
+              return             - return code >0 if not authentificated
+              string_sha1        - password in SHA1 (digest)
+              string_sha1_hex    - password in SHA1 (digest in hex)
+              string_sha1_base64 - BASE64 (SHA1 digest) - compatible with htpasswd format
             }
     */
 
@@ -271,11 +271,11 @@ public class openme
     // Prepare return object
     JSONObject r=new JSONObject();
 
-    String x=(String) i.get("cm_string");
+    String x=(String) i.get("string");
     if (x==null || x=="")
     {
-      r.put("cm_return", new Long(1));
-      r.put("cm_error", "'cm_string' is not set in openme/convert_str_to_sha1");
+      r.put("return", new Long(1));
+      r.put("error", "'string' is not set in openme/convert_str_to_sha1");
       return r;
     }
 
@@ -290,21 +290,21 @@ public class openme
     }
     catch(NoSuchAlgorithmException e)
     {
-      r.put("cm_return", new Long(0));
-      r.put("cm_error", "can't crypt password ("+e.getMessage()+") ...");
+      r.put("return", new Long(0));
+      r.put("error", "can't crypt password ("+e.getMessage()+") ...");
       return r;
     }
     catch(UnsupportedEncodingException e)
     {
-      r.put("cm_return", new Long(0));
-      r.put("cm_error", "can't crypt password ("+e.getMessage()+") ...");
+      r.put("return", new Long(0));
+      r.put("error", "can't crypt password ("+e.getMessage()+") ...");
       return r;
     }
 
-    r.put("cm_return", new Long(0));
-    r.put("cm_string_sha1", sha1.toString());
-    r.put("cm_string_sha1_hex", sha1_hex);
-    r.put("cm_string_sha1_base64", sha1_base64);
+    r.put("return", new Long(0));
+    r.put("string_sha1", sha1.toString());
+    r.put("string_sha1_hex", sha1_hex);
+    r.put("string_sha1_base64", sha1_base64);
     return r;
   }
 
@@ -319,31 +319,31 @@ public class openme
   }
 
   // *******************************************************************
-  public static JSONObject convert_cm_array_to_uri(JSONObject i) 
+  public static JSONObject convert_array_to_uri(JSONObject i) 
   {
     /*
     Convert cM array to uri (convert various special parameters)
 
     Input:  {
-              cm_array   - array to convert to uri
+              array   - array to convert to uri
             }
 
     Output: {
-              cm_return  - return code (check "access" function for full description)
-              (cm_error) - error text  (check "access" function for full description)
-              cm_string  - converted string
-              cm_string1 - converted string (for urlopen)
+              return  - return code (check "access" function for full description)
+              (error) - error text  (check "access" function for full description)
+              string  - converted string
+              string1 - converted string (for urlopen)
             }
     */
 
     // Prepare return object
     JSONObject r=new JSONObject();
 
-    JSONObject x=(JSONObject) i.get("cm_array");
+    JSONObject x=(JSONObject) i.get("array");
     if (x==null)
     {
-      r.put("cm_return", new Long(1));
-      r.put("cm_error", "'cm_array' is not set in openme/convert_cm_array_to_uri");
+      r.put("return", new Long(1));
+      r.put("error", "'array' is not set in openme/convert_array_to_uri");
       return r;
     }
 
@@ -357,8 +357,8 @@ public class openme
     }
     catch (Exception ex)
     {
-      r.put("cm_return", new Long(1));
-      r.put("cm_error", "can't output json ("+ex.getMessage()+") ...");
+      r.put("return", new Long(1));
+      r.put("error", "can't output json ("+ex.getMessage()+") ...");
       return r;
     }
 
@@ -376,14 +376,14 @@ public class openme
     }
     catch (Exception ex)
     {
-      r.put("cm_return", new Long(1));
-      r.put("cm_error", "can't encode string ("+ex.getMessage()+") ...");
+      r.put("return", new Long(1));
+      r.put("error", "can't encode string ("+ex.getMessage()+") ...");
       return r;
     }
 
-    r.put("cm_return", new Long(0));
-    r.put("cm_string", s);
-    r.put("cm_string1", s1);
+    r.put("return", new Long(0));
+    r.put("string", s);
+    r.put("string1", s1);
 
     return r;
   }
@@ -393,26 +393,26 @@ public class openme
   {
     /*
     Input:  {
-              cm_remote_url             - remote URL
-              (cm_user_uoa)             -
-              (cm_user_password)        -
-              (cm_user_password1)       -
+              remote_url             - remote URL
+              (user_uoa)             -
+              (user_password)        -
+              (user_password1)       -
               (remote_repo_uoa)
 
               (remote_pre_auth)         - if 'yes', need standard http login/password pre-authentication
-              (cm_remote_user_name)     - remote username
-              (cm_remote_user_password) - remote password
+              (remote_user_name)     - remote username
+              (remote_user_password) - remote password
 
-              (cm_web_module_uoa)       - module to run
-              (cm_web_action)           - action to perform
+              (web_module_uoa)       - module to run
+              (web_action)           - action to perform
                                           if =='download', prepare entry/file download through Internet
 
-              (cm_save_to_file)         - if cm_web_action==download,
+              (save_to_file)         - if web_action==download,
                                           save output to this file
 
-              (cm_console)              - if 'json', treat output as json
+              (console)              - if 'json', treat output as json
                                           if 'json_after_text', strip everything before json
-                                          if 'txt', output to cm_stdout
+                                          if 'txt', output to stdout
 
               ...                       - all other request parameters
 
@@ -420,11 +420,11 @@ public class openme
             }
 
     Output: {
-              cm_return   - return code = 0 if successful
+              return   - return code = 0 if successful
                                         > 0 if error
                                         < 0 if warning (rarely used at this moment)
-              (cm_error)  - error text, if cm_return > 0
-              (cm_stdout) - if cm_console='txt', output there
+              (error)  - error text, if return > 0
+              (stdout) - if console='txt', output there
             }
     */
 
@@ -439,52 +439,52 @@ public class openme
     String post="";
 
     String con="";
-    x=(String) i.get("cm_console");
+    x=(String) i.get("console");
     if (x!=null && x!="")
        con=x;
 
-    String url=(String) i.get("cm_remote_url");
+    String url=(String) i.get("remote_url");
     if (url==null || url=="")
     {
-      r.put("cm_return", new Long(1));
-      r.put("cm_error", "'cm_remote_url is not defined");
+      r.put("return", new Long(1));
+      r.put("error", "'remote_url is not defined");
       return r;
     }
-    i.remove("cm_remote_url");
+    i.remove("remote_url");
 
-    x=(String) i.get("cm_user_uoa");
+    x=(String) i.get("user_uoa");
     if (x!=null && x!="")
     {
        if (post!="") post+="&";
-       post+="cm_user_uoa="+x;
-       i.remove("cm_user_uoa");
+       post+="user_uoa="+x;
+       i.remove("user_uoa");
     }
 
-    String save_to_file=(String) i.get("cm_save_to_file");
+    String save_to_file=(String) i.get("save_to_file");
     if (save_to_file!=null)
-       i.remove("cm_save_to_file");
+       i.remove("save_to_file");
 
-    x=(String) i.get("cm_user_password");
+    x=(String) i.get("user_password");
     if (x!=null && x!="")
     {
        if (post!="") post+="&";
-       post+="cm_user_password="+x;
-       i.remove("cm_user_password");
+       post+="user_password="+x;
+       i.remove("user_password");
     }
 
-    x=(String) i.get("cm_user_password1");
+    x=(String) i.get("user_password1");
     if (x!=null && x!="")
     {
        if (post!="") post+="&";
-       post+="cm_user_password1="+x;
-       i.remove("cm_user_password1");
+       post+="user_password1="+x;
+       i.remove("user_password1");
     }
 
     x=(String) i.get("remote_repo_uoa");
     if (x!=null && x!="")
     {
        if (post!="") post+="&";
-       post+="cm_repo_uoa="+x;
+       post+="repo_uoa="+x;
        i.remove("remote_repo_uoa");
     }
 
@@ -498,18 +498,18 @@ public class openme
        String username="";
        String password="";
 
-       x=(String) i.get("cm_remote_user_name");
+       x=(String) i.get("remote_user_name");
        if (x!=null && x!="")
        {
           username=x;
-          i.remove("cm_remote_user_name");
+          i.remove("remote_user_name");
        }
 
-       x=(String) i.get("cm_remote_user_password");
+       x=(String) i.get("remote_user_password");
        if (x!=null && x!="")
        {
           password=x;
-          i.remove("cm_remote_user_password");
+          i.remove("remote_user_password");
        }
 
        x=username+":"+password;
@@ -519,26 +519,26 @@ public class openme
     // Check if data download, not json and convert it to download request
     boolean download=false;
 
-    x=(String) i.get("cm_web_action");
+    x=(String) i.get("web_action");
     if (x=="download" || x=="show")
     {
        download=true;
        if (post!="") post+="&";
-       post+="cm_web_module_uoa=web&cm_web_action="+x;
-       i.remove("cm_web_action");
+       post+="web_module_uoa=web&web_action="+x;
+       i.remove("web_action");
 
-       if (((String) i.get("cm_web_module_uoa"))!=null) i.remove("cm_web_module_uoa");
-       if (((String) i.get("cm_console"))!=null) i.remove("cm_console");
+       if (((String) i.get("web_module_uoa"))!=null) i.remove("web_module_uoa");
+       if (((String) i.get("console"))!=null) i.remove("console");
     }
 
     // Prepare array to transfer through Internet
     JSONObject ii=new JSONObject();
-    ii.put("cm_array", i);
-    JSONObject rx=convert_cm_array_to_uri(ii);
-    if ((Long)rx.get("cm_return")>0) return rx;
+    ii.put("array", i);
+    JSONObject rx=convert_array_to_uri(ii);
+    if ((Long)rx.get("return")>0) return rx;
 
     if (post!="") post+="&";
-    post+="cm_json="+((String) rx.get("cm_string1"));
+    post+="json="+((String) rx.get("string1"));
 
     // Prepare URL request
     String s="";
@@ -566,19 +566,19 @@ public class openme
     {
       if (c!=null) c.disconnect(); 
 
-      r.put("cm_return", new Long(1));
-      r.put("cm_error", "Failed reading stream from remote server ("+e.getMessage()+") ...");
+      r.put("return", new Long(1));
+      r.put("error", "Failed reading stream from remote server ("+e.getMessage()+") ...");
       return r;
     }
 
-    r.put("cm_return", new Long(0));
+    r.put("return", new Long(0));
 
     // Check if download, not json!
     if (download)
     {
        String name="default_download_name.dat";
 
-       x=((String) i.get("cm_web_filename"));
+       x=((String) i.get("web_filename"));
        if (x!=null && x!="")
        {
          File xf = new File(x);
@@ -608,8 +608,8 @@ public class openme
        {
          if (c!=null) c.disconnect(); 
 
-         r.put("cm_return", new Long(1));
-         r.put("cm_error", "Failed reading stream from remote server or writing to file ("+e.getMessage()+") ...");
+         r.put("return", new Long(1));
+         r.put("error", "Failed reading stream from remote server or writing to file ("+e.getMessage()+") ...");
          return r;
        }
     }
@@ -636,8 +636,8 @@ public class openme
        {
          if (c!=null) c.disconnect(); 
 
-         r.put("cm_return", new Long(1));
-         r.put("cm_error", "Failed reading stream from remote server ("+e.getMessage()+") ...");
+         r.put("return", new Long(1));
+         r.put("error", "Failed reading stream from remote server ("+e.getMessage()+") ...");
          return r;
        }
 
@@ -662,13 +662,13 @@ public class openme
           }
           catch (ParseException ex)
           {
-            r.put("cm_return", new Long(1));
-            r.put("cm_error", "can't parse json output ("+ex+") ...");
+            r.put("return", new Long(1));
+            r.put("error", "can't parse json output ("+ex+") ...");
             return r;
           }
        }
        else
-         r.put("cm_stdout", s);
+         r.put("stdout", s);
     }
 
     if (c!=null) c.disconnect(); 
@@ -685,8 +685,8 @@ public class openme
        Input:  i input json object
 
        Output: {
-                 cm_return       - return code = 0, if successful
-                 (cm_error)      - error text if return code > 0
+                 return       - return code = 0, if successful
+                 (error)      - error text if return code > 0
                  ...
                }
     */
@@ -696,11 +696,11 @@ public class openme
     JSONObject r=new JSONObject();
 
     /* Get module name */
-    String rm=(String) i.get("cm_run_module_uoa");
+    String rm=(String) i.get("run_module_uoa");
     if (rm==null || rm=="")
     {
-      r.put("cm_return", new Long(1));
-      r.put("cm_error", "can't find cm_run_module_uoa in cm_action ...");
+      r.put("return", new Long(1));
+      r.put("error", "can't find run_module_uoa in action ...");
       return r;
     }
     
@@ -708,39 +708,39 @@ public class openme
     /* First file will be deleted automatically by cM */
     try 
     {
-      f=File.createTempFile("cm-", "-cm.tmp", null);
+      f=File.createTempFile("ck-", "-ck.tmp", null);
       fn1=f.getAbsolutePath();
 
-      f=File.createTempFile("cm-", "-cm.tmp", null);
+      f=File.createTempFile("ck-", "-ck.tmp", null);
       fn2=f.getAbsolutePath();
 
-      f=File.createTempFile("cm-", "-cm.tmp", null);
+      f=File.createTempFile("ck-", "-ck.tmp", null);
       fn3=f.getAbsolutePath();
     } 
     catch (IOException ex) 
     {
-      r.put("cm_return", new Long(1));
-      r.put("cm_error", "can't gerenate temp files ("+ex.getMessage()+") ...");
+      r.put("return", new Long(1));
+      r.put("error", "can't gerenate temp files ("+ex.getMessage()+") ...");
       return r;
     }
 
     /* Record input file */
     JSONObject rx=openme_store_json_file(i, fn1);
-    if ((Long)rx.get("cm_return")>0) return rx;
+    if ((Long)rx.get("return")>0) return rx;
 
     /* Prepare command line */
     String cmd="cmd /c cm "+rm+" @"+fn1+" > "+fn2+" 2> "+fn3;
 
     String[] x=openme_run_program(cmd, null, null);
 
-    r.put("cm_stderr",x[0]);
-    r.put("cm_stdout",x[1]);
+    r.put("stderr",x[0]);
+    r.put("stdout",x[1]);
 
     r=openme_load_json_file(fn2);
-    if ((Long)r.get("cm_return")>0)
+    if ((Long)r.get("return")>0)
     {
-      r.put("cm_return", new Long(1));
-      r.put("cm_error", "output in files (STDOUT file="+fn2+"; STDERR file="+fn3+")");
+      r.put("return", new Long(1));
+      r.put("error", "output in files (STDOUT file="+fn2+"; STDERR file="+fn3+")");
       return r;
     }
 
