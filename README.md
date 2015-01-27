@@ -45,6 +45,7 @@ Publications
 ============
 Concepts has been described in the following publications:
 
+* https://hal.inria.fr/inria-00128507
 * https://hal.inria.fr/inria-00436029
 * http://hal.inria.fr/hal-01054763
 
