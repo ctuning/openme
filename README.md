@@ -13,6 +13,10 @@ projects, and has been included to mainline GCC since version 4.6
 (to enable interactive compilers and plugin-based auto-tuning
 combined with machine learning).
 
+Note, that we currently updating this version to work with the
+new Collective Knowledge Framework. It may take some time, 
+so please be patient!
+
 License
 =======
 * OpenME interface is distributed under LGPL v2.1 license
