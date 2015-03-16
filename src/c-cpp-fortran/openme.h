@@ -9,8 +9,8 @@
 
  */
 
-#ifndef CM_H
-#define CM_H
+#ifndef OPENME_H
+#define OPENME_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -86,7 +86,7 @@ extern cJSON *openme_create_obj (char *str);
 extern cJSON *openme_get_obj (cJSON*json, char *str);
 extern void openme_print_obj (cJSON *obj);
 
-extern cJSON *cm_action(cJSON *inp);
+extern cJSON *ck_action(cJSON *inp);
 
 extern void openme_init_hooks(struct openme_hooks *ome_hooks);
 

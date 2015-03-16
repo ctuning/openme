@@ -180,9 +180,9 @@ extern void openme_callback (char *event_name, void *params)
      Initiate callback
 
      Input: event_name   - name of the event. For now it's just a string and the search is not optimized.
-                           We should add cM UIDs here too since events can be possibly shared across many plugins.
+                           We should add CK UIDs here too since events can be possibly shared across many plugins.
             params       - parameters passed to an event. If there are multiple parameters, 
-                           we use either struct or cJSON similar to cM universal call
+                           we use either struct or cJSON similar to CK universal call
 
      Output: None - if we need to return some info from the event, we update variable "params".
                     For example, to update unroll factor in LLVM, Open64 ot GCC, we use a struct
@@ -228,7 +228,7 @@ extern void openme_register_callback (struct openme_info *info, char *event_name
 
      Input: info         - plugin initalization variable - passed to plugin init function
             event_name   - name of the event. For now it's just a string and the search is not optimized.
-                           We should add cM UIDs here too since events can be possibly shared across many plugins.
+                           We should add CK UIDs here too since events can be possibly shared across many plugins.
             func         - address of the event function.
 
      Output: None
@@ -462,14 +462,14 @@ extern void openme_print_error(void)
   printf(oi.error);
 }
 
-extern cJSON *cm_action (cJSON *inp)
+extern cJSON *ck_action (cJSON *inp)
 {
   /*
-     FGG: TBD - call local cM
+     FGG: TBD - call local CK
 
      Input:  inp - json object
 
-     Output: json object from cM or NULL if error (openme error is set)
+     Output: json object from CK or NULL if error (openme error is set)
   */
   char *fn;
   int r=0;
@@ -479,16 +479,16 @@ extern cJSON *cm_action (cJSON *inp)
   char fn3[128];
 
   /* Get module name */
-  json=openme_get_obj(inp, "cm_run_module_uoa");
+  json=openme_get_obj(inp, "module_uoa");
   if (json==NULL)
   {
-    openme_set_error("OpenME error - can't find cm_run_module_uoa in cm_action ...", NULL);
+    openme_set_error("OpenME error - can't find module_uoa in cm_action ...", NULL);
     return NULL;
   }
   bufy=json->valuestring;
 
   /* Generate tmp files with json and for output*/
-  /* First file will be deleted automatically by cM */
+  /* First file will be deleted automatically by CK */
   fn=tmpnam(NULL);
   sprintf(fn1, "%s-cm.tmp", fn);
 
@@ -507,7 +507,7 @@ extern cJSON *cm_action (cJSON *inp)
   }
 
   /* Prepare command line */
-  sprintf(bufx, "cm %s @%s > %s 2> %s", bufy, fn1, fn2, fn3);
+  sprintf(bufx, "ck %s @%s > %s 2> %s", bufy, fn1, fn2, fn3);
 
   system(bufx);
 
@@ -519,7 +519,7 @@ extern cJSON *cm_action (cJSON *inp)
     sprintf(bufx, "STDOUT file=%s; STDERR file=%s", fn2);
     sprintf(bufx, "STDOUT file=%s; STDERR file=%s", fn3);
 
-    openme_set_error("OpenME error - can't parse cM output; see files: %s...", bufx);
+    openme_set_error("OpenME error - can't parse CK output; see files: %s...", bufx);
 
     return NULL;
   }
@@ -547,5 +547,5 @@ extern cJSON *OPENME_CREATE_OBJ_F (char *str) {return openme_create_obj(str);}
 extern void openme_print_obj_f_ (cJSON **obj) {openme_print_obj(*obj);}
 extern void OPENME_PRINT_OBJ_F (cJSON **obj) {openme_print_obj(*obj);}
 
-extern cJSON *cm_action_f_ (cJSON **obj) {cm_action(*obj);}
-extern cJSON *CM_ACTION_F (cJSON **obj) {cm_action(*obj);}
+extern cJSON *ck_action_f_ (cJSON **obj) {cm_action(*obj);}
+extern cJSON *CK_ACTION_F (cJSON **obj) {cm_action(*obj);}
