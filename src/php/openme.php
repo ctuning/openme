@@ -41,6 +41,19 @@ function openme_web_to_array($web, $prefix, $remove=true)
   return $r; 
 }
 
+function openme_web_file_to_array($web)
+{
+  $r=array();
+  foreach ($web as $key => $value)
+  {
+    if (array_key_exists('tmp_name', $value))
+    {
+       $r[$key.'_uploaded']=$value['tmp_name'];
+    }
+  }
+  return $r; 
+}
+
 function openme_web_err($cfg, $tp, $err, $str)
 {
   if ($tp=='json')
@@ -91,7 +104,7 @@ function openme_ck_access($i, $output=true)
 
  # Get action
  if (!array_key_exists('action', $i))
-   return array("return"=>1,"error"=>"action is not defined");
+    return array("return"=>1,"error"=>"action is not defined");
 
  $action=$i["action"];
  unset($i["cm_action"]);

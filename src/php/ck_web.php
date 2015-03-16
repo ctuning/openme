@@ -84,8 +84,11 @@
  $cookie=$_COOKIE;
  $get=openme_web_to_array($_GET, "");
  $post=openme_web_to_array($_POST, "");
+ $files=openme_web_file_to_array($_FILES, "");
 
  $ii=$get;
+
+ $ii=array_merge($ii, $files);
 
  $o="";
 
@@ -137,6 +140,16 @@
  $ii['con_encoding']='utf8';
 
  # Call CK ***************************************************************************
+ if (!array_key_exists('action', $ii))
+ {
+   if (array_key_exists("if_web_action_not_defined", $cfg) &&
+       array_key_exists("if_web_module_not_defined", $cfg))
+   {
+     $ii["action"]=$cfg["if_web_action_not_defined"];
+     $ii["module_uoa"]=$cfg["if_web_module_not_defined"];
+   } 
+ }
+
  $r=openme_ck_access($ii, false);
 
  # Process output
