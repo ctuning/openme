@@ -10,8 +10,24 @@ rem
 rem Developer(s): Grigori Fursin, 2015
 rem
 
-set CK_SOURCE_FILES=cJSON.c openme.c
+set CK_SOURCE_FILES=openme.c
 set CK_INCLUDE_FILE=openme.h
+
+if [%CK_ENV_SCRIPT_CK%] == [] (
+ echo.
+ echo Environment variable "CK_ENV_SCRIPT_CK" is empty!
+ goto err
+)
+
+if [%CK_ENV_LIB_CJSON%] == [] (
+ echo.
+ echo Environment variable "CK_ENV_LIB_CJSON" is empty!
+ goto err
+)
+
+
+set CK_COMPILER_FLAGS_MISC=%CK_FLAG_PREFIX_INCLUDE%%CK_ENV_LIB_CJSON_INCLUDE% %CK_COMPILER_FLAGS_MISC%
+set CK_LD_FLAGS_MISC=%CK_ENV_LIB_CJSON_LIB%\%CK_ENV_LIB_CJSON_STATIC_NAME%
 
 echo.
 echo Cleaning directory ...
@@ -55,12 +71,12 @@ echo.
 echo Installing ...
 echo.
 
-mkdir ..\lib
-copy /B %CK_TARGET_FILE_S% ..\lib
-copy /B %CK_TARGET_FILE_D% ..\lib
+mkdir ..\..\lib
+copy /B %CK_TARGET_FILE_S% ..\..\lib
+copy /B %CK_TARGET_FILE_D% ..\..\lib
 
-mkdir ..\include
-copy /B CK_INCLUDE_FILE ..\include
+mkdir ..\..\include
+copy /B %CK_INCLUDE_FILE% ..\..\include
 
 
 exit /b 0
