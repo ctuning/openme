@@ -62,13 +62,12 @@ echo.
 echo Installing ...
 echo.
 
-mkdir ..\..\lib
-copy /B %CK_TARGET_FILE_S% ..\..\lib
-copy /B %CK_TARGET_FILE_D% ..\..\lib
+mkdir %INSTALL_DIR%\lib
+copy /B %CK_TARGET_FILE_S% %INSTALL_DIR%\lib
+copy /B %CK_TARGET_FILE_D% %INSTALL_DIR%\lib
 
-mkdir ..\..\include
-copy /B %CK_INCLUDE_FILES% ..\..\include
-
+mkdir %INSTALL_DIR%\include
+copy /B %CK_INCLUDE_FILES% %INSTALL_DIR%\include
 
 exit /b 0
 
