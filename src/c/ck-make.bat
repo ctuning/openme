@@ -11,8 +11,8 @@ rem Developer(s): Grigori Fursin, 2015
 rem
 
 set CK_SOURCE_FILES=cJSON.c openme.c
-set CK_INCLUDE_FILES=cJSON.h openme.h
 set CK_INCLUDE_FILE=openme.h
+set CK_INCLUDE_FILE1=cJSON.h
 
 set LIB_NAME=libopenme
 
@@ -67,7 +67,8 @@ copy /B %CK_TARGET_FILE_S% %INSTALL_DIR%\lib
 copy /B %CK_TARGET_FILE_D% %INSTALL_DIR%\lib
 
 mkdir %INSTALL_DIR%\include
-copy /B %CK_INCLUDE_FILES% %INSTALL_DIR%\include
+copy /B %CK_INCLUDE_FILE% %INSTALL_DIR%\include
+copy /B %CK_INCLUDE_FILE1% %INSTALL_DIR%\include
 
 exit /b 0
 
