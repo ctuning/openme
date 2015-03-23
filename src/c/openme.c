@@ -482,7 +482,7 @@ extern cJSON *ck_action (cJSON *inp)
   json=openme_get_obj(inp, "module_uoa");
   if (json==NULL)
   {
-    openme_set_error("OpenME error - can't find module_uoa in cm_action ...", NULL);
+    openme_set_error("OpenME error - can't find module_uoa in ck_action ...", NULL);
     return NULL;
   }
   bufy=json->valuestring;
@@ -547,5 +547,5 @@ extern cJSON *OPENME_CREATE_OBJ_F (char *str) {return openme_create_obj(str);}
 extern void openme_print_obj_f_ (cJSON **obj) {openme_print_obj(*obj);}
 extern void OPENME_PRINT_OBJ_F (cJSON **obj) {openme_print_obj(*obj);}
 
-extern cJSON *ck_action_f_ (cJSON **obj) {cm_action(*obj);}
-extern cJSON *CK_ACTION_F (cJSON **obj) {cm_action(*obj);}
+extern cJSON *ck_action_f_ (cJSON **obj) {ck_action(*obj);}
+extern cJSON *CK_ACTION_F (cJSON **obj) {ck_action(*obj);}
