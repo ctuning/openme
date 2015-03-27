@@ -10,7 +10,7 @@ rem
 rem Developer(s): Grigori Fursin, 2015
 rem
 
-del org/openme_ck/openme_ck.class
+del org\openme_ck\openme_ck.class
 del openme_ck.jar
 
 echo.

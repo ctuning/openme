@@ -1,6 +1,6 @@
 /*
 
-# OpenME interface
+# OpenME interface for JAVA and CK
 #
 # See LICENSE.txt for licensing details.
 # See Copyright.txt for copyright details.
