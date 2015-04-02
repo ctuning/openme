@@ -15,7 +15,7 @@ echo "Building static library ..."
 echo ""
 
 export CK_SOURCE_FILES="cJSON.c openme.c"
-export CK_OBJ_FILES=cJSON${CK_OBJ_EXT} openme${CK_OBJ_EXT}
+export CK_OBJ_FILES="cJSON${CK_OBJ_EXT} openme${CK_OBJ_EXT}"
 
 export CK_INCLUDE_FILE=openme.h
 export CK_INCLUDE_FILE1=cJSON.h
