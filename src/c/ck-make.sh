@@ -15,6 +15,8 @@ echo "Building static library ..."
 echo ""
 
 export CK_SOURCE_FILES="cJSON.c openme.c"
+export CK_OBJ_FILES=cJSON${CK_OBJ_EXT} openme${CK_OBJ_EXT}
+
 export CK_INCLUDE_FILE=openme.h
 export CK_INCLUDE_FILE1=cJSON.h
 
@@ -34,8 +36,8 @@ ${CK_CC} ${CK_FLAGS_STATIC_LIB} ${CK_FLAGS_CREATE_OBJ} ${CK_CC_FLAGS} ${CK_SOURC
     exit 1
   fi
 
-echo "Executing ${CK_LB} ${CK_LB_OUTPUT}${CK_TARGET_FILE} *${CK_OBJ_EXT}"
-${CK_LB} ${CK_LB_OUTPUT}${CK_TARGET_FILE} *${CK_OBJ_EXT}
+echo "Executing ${CK_LB} ${CK_LB_OUTPUT}${CK_TARGET_FILE} ${CK_OBJ_FILES}"
+${CK_LB} ${CK_LB_OUTPUT}${CK_TARGET_FILE} ${CK_OBJ_FILES}
   if [ "${?}" != "0" ] ; then
     echo "Error: Compilation failed in $PWD!" 
     exit 1

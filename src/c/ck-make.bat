@@ -11,6 +11,8 @@ rem Developer(s): Grigori Fursin, 2015
 rem
 
 set CK_SOURCE_FILES=cJSON.c openme.c
+set CK_OBJ_FILES=cJSON%CK_OBJ_EXT% openme%CK_OBJ_EXT%
+
 set CK_INCLUDE_FILE=openme.h
 set CK_INCLUDE_FILE1=cJSON.h
 
@@ -35,8 +37,8 @@ if %errorlevel% neq 0 (
  goto err
 )
 
-echo Executing %CK_LB% %CK_LB_OUTPUT%%CK_TARGET_FILE% *%CK_OBJ_EXT%
-%CK_LB% %CK_LB_OUTPUT%%CK_TARGET_FILE% *%CK_OBJ_EXT%
+echo Executing %CK_LB% %CK_LB_OUTPUT%%CK_TARGET_FILE% %CK_OBJ_FILES%
+%CK_LB% %CK_LB_OUTPUT%%CK_TARGET_FILE% %CK_OBJ_FILES%
 if %errorlevel% neq 0 (
  echo.
  echo Building failed!
