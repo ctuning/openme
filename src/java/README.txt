@@ -1,1 +1,2 @@
-If we want to use it with Android, we should compile it with JDK 1.6.x and not 1.7.x ...
+If we want to use OpenME with Android, check directory "java-android".
+
