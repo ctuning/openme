@@ -14,13 +14,13 @@ echo ""
 echo "Building ..."
 echo ""
 
-javac org/openme_ck/openme_ck.java -classpath json-simple-1.1.1.jar;commons-codec-1.7.jar
+javac org/openme_ck/openme_ck.java -classpath json-simple-1.1.1.jar:commons-codec-1.7.jar
 if [ "${?}" != "0" ] ; then
   echo "Error: Compilation failed in $PWD!" 
   exit 1
 fi
 
-jar cf openme_ck.jar org\openme_ck\openme_ck.class
+jar cf openme_ck.jar org/openme_ck/openme_ck.class
 if [ "${?}" != "0" ] ; then
   echo "Error: Archiving failed in $PWD!" 
   exit 1
