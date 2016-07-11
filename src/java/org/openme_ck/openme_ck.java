@@ -33,6 +33,9 @@ import java.util.Formatter;
 //Main class
 public class openme_ck
 {
+  public static String json_sep="*** ### --- CK JSON SEPARATOR --- ### ***";
+  public static String json_sep2="CK error: ";
+
   // *******************************************************************
   public static JSONObject openme_store_json_file(JSONObject i, String file_name)
   {
@@ -161,7 +164,7 @@ public class openme_ck
   }
 
   // *******************************************************************
-  public static JSONObject openme_load_json_file(String file_name)
+  public static JSONObject openme_load_json_file(String file_name, Boolean separator)
   {
     /*
        Load json file and create cJSON object
@@ -226,6 +229,25 @@ public class openme_ck
       return r;
     }
 
+    // Check if start after separator
+    if (separator)
+    {
+       int li=output.lastIndexOf(json_sep);
+       if (li>=0)
+       {
+         output=output.substring(li+json_sep.length());
+
+         li=output.lastIndexOf(json_sep2);
+         if (li>0)
+         {
+            output=output.substring(0,li);
+         }
+
+         output=output.trim();
+       }
+    }
+
+    // Parse JSON
     JSONObject a=null;
 
     try
@@ -565,11 +587,17 @@ public class openme_ck
 
        if (con=="json_after_text")
        {
-         String json_sep="*** ### --- CM JSON SEPARATOR --- ### ***";
          int li=s.lastIndexOf(json_sep);
          if (li>=0)
          {
            s=s.substring(li+json_sep.length());
+
+           li=s.lastIndexOf(json_sep2);
+           if (li>0)
+           {
+              s=s.substring(0,li);
+           }
+
            s=s.trim();
          }
        }
@@ -602,9 +630,12 @@ public class openme_ck
   public static JSONObject access(JSONObject i) 
   {
     /*
-       FGG: TBD - call local cM
-
-       Input:  i input json object
+       Input:  Input json object:
+               {
+                 action
+                 module_uoa
+                 ...
+               }
 
        Output: {
                  return       - return code = 0, if successful
@@ -612,19 +643,23 @@ public class openme_ck
                  ...
                }
     */
+
     File f=null;
     String fn1, fn2, fn3;
 
     JSONObject r=new JSONObject();
 
     /* Get module name */
-    String rm=(String) i.get("module_uoa");
-    if (rm==null || rm=="")
+    String action=(String) i.get("action");
+    if (action==null || action=="")
     {
       r.put("return", new Long(1));
-      r.put("error", "can't find module_uoa in action ...");
+      r.put("error", "can't find 'action' in CK input ...");
       return r;
     }
+
+    // Force JSON with separator output
+    i.put("out","json_with_sep");
     
     /* Generate tmp files with json and for output*/
     /* First file will be deleted automatically by cM */
@@ -651,20 +686,22 @@ public class openme_ck
     if ((Long)rx.get("return")>0) return rx;
 
     /* Prepare command line */
-    String cmd="cmd /c cm "+rm+" @"+fn1+" > "+fn2+" 2> "+fn3;
+    String cmd="ck "+action+" @"+fn1+" > "+fn2+" 2> "+fn3;
+
+    /* Check if Windows */
+    String OS = System.getProperty("os.name");
+    if (OS.startsWith("Windows")) cmd="cmd /c "+cmd;
 
     String[] x=openme_run_program(cmd, null, null);
 
     r.put("stderr",x[0]);
     r.put("stdout",x[1]);
 
-    r=openme_load_json_file(fn2);
-    if ((Long)r.get("return")>0)
-    {
-      r.put("return", new Long(1));
-      r.put("error", "output in files (STDOUT file="+fn2+"; STDERR file="+fn3+")");
-      return r;
-    }
+    r=openme_load_json_file(fn2,true);
+
+    /* Remove tmp files */
+    f = new File(fn1);
+    f.delete();
 
     /* Remove tmp files */
     f = new File(fn2);
@@ -673,6 +710,8 @@ public class openme_ck
     f = new File(fn3);
     f.delete();
 
-    return r;
+    if ((Long)r.get("return")>0) return r;
+
+    return (JSONObject) r.get("dict");
   }
 }

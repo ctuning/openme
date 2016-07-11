@@ -1,6 +1,6 @@
 /*
 
-# OpenME interface for Java (Android)
+# OpenME interface for Java
 #
 # See LICENSE.txt for licensing details.
 # See Copyright.txt for copyright details.
@@ -11,6 +11,7 @@
 
 package org.ctuning.openme;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,6 +30,7 @@ import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.UUID;
 
 //Main class
 public class openme
@@ -279,11 +281,6 @@ public class openme
 
         return r;
     }
-
-
-
-
-
 
 
     // *******************************************************************
@@ -569,7 +566,7 @@ public class openme
         if (!r.has("return") || (Integer)r.get("return")>0)
         {
             r.put("return", new Integer(1));
-            r.put("error", "output in files (STDOUT file="+fn2+"; STDERR file="+fn3+")");
+            r.put("error", "output in files (STDERR file="+fn3+"; STDOUT file="+fn2+")");
             return r;
         }
 
@@ -581,5 +578,112 @@ public class openme
         f.delete();
 
         return r;
+    }
+
+    // *******************************************************************
+    public static JSONObject read_text_file_and_convert_to_json(String file_name, String sep, boolean value_to_lower, boolean aggregate_similar) throws JSONException
+    {
+        JSONObject r=new JSONObject();
+        JSONObject a=new JSONObject();
+
+        BufferedReader fp=null;
+
+        try
+        {
+          fp=new BufferedReader(new FileReader(file_name));
+        }
+        catch (IOException ex)
+        {
+          r.put("return", new Long(16));
+          r.put("error", "can't open file for reading ("+ex.getMessage()+") ...");
+          return r;
+        }
+
+        String output="";
+        try 
+        {
+          String line=null;
+          while ((line = fp.readLine())!=null)
+          {
+             if (sep!=null && sep!="")
+             {
+               int i=line.indexOf(sep);
+               if (i>0)
+               {
+//            	  String key=line.substring(0,i).trim().toLowerCase().replace(' ', '_');
+             	  String key=line.substring(0,i).trim(); //.replace(' ', '_');
+            	  String value=line.substring(i+1,line.length()).trim();
+            	  if (value_to_lower) value=value.toLowerCase();
+
+		          if (a.has(key) && aggregate_similar) {
+			        Object vv=a.get(key);
+			        if (vv instanceof JSONArray) {
+                        JSONArray vvv=(JSONArray) a.get(key);
+                        vvv.put(value);
+			            a.put(key, vvv);
+                    }
+                    else {
+			            JSONArray vvv=new JSONArray();
+			            vvv.put((String) vv);
+			            vvv.put(value);
+			            a.put(key, vvv);
+			        }
+                  }
+                  else a.put(key, value);
+               }
+             }
+             
+             output+=line+'\n';
+          }
+
+          fp.close();
+        } 
+        catch (Exception ex)
+        {
+          try
+          {
+            fp.close();
+          }
+          catch (Exception ex1)
+          {
+             r.put("return", new Long(1));
+             r.put("error", "can't close json file ("+ex1.getMessage()+") ...");
+             return r;
+          }
+
+          r.put("return", new Long(1));
+          r.put("error", "can't read json file ("+ex.getMessage()+") ...");
+          return r;
+        }
+
+        try
+        {
+          fp.close();
+        }
+        catch (Exception ex)
+        {
+          r.put("return", new Long(1));
+          r.put("error", "can't close json file ("+ex.getMessage()+") ...");
+          return r;
+        }
+
+        r.put("return", new Long(0));
+        r.put("dict", a);
+        r.put("file_as_string", output);
+        
+        return r;
+    }
+
+    // *******************************************************************
+    public static String gen_uid()
+    {
+        UUID uuid = UUID.randomUUID();
+        String s=String.valueOf(uuid);
+
+        s=s.replace("-","");
+
+        s=s.substring(0,16);
+
+        return s;
     }
 }
