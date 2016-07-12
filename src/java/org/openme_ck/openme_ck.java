@@ -645,7 +645,7 @@ public class openme_ck
     */
 
     File f=null;
-    String fn1, fn2, fn3;
+    String fn1, fn2, fn3, fn4;
 
     JSONObject r=new JSONObject();
 
@@ -658,9 +658,6 @@ public class openme_ck
       return r;
     }
 
-    // Force JSON with separator output
-    i.put("out","json_with_sep");
-    
     /* Generate tmp files with json and for output*/
     /* First file will be deleted automatically by cM */
     try 
@@ -673,6 +670,9 @@ public class openme_ck
 
       f=File.createTempFile("ck-", "-ck.tmp", null);
       fn3=f.getAbsolutePath();
+
+      f=File.createTempFile("ck-", "-ck.tmp", null);
+      fn4=f.getAbsolutePath();
     } 
     catch (IOException ex) 
     {
@@ -680,6 +680,11 @@ public class openme_ck
       r.put("error", "can't gerenate temp files ("+ex.getMessage()+") ...");
       return r;
     }
+
+    // Force JSON with separator output
+    i.put("out","json_file");
+    i.put("out_file",fn4);
+
 
     /* Record input file */
     JSONObject rx=openme_store_json_file(i, fn1);
@@ -697,18 +702,21 @@ public class openme_ck
     r.put("stderr",x[0]);
     r.put("stdout",x[1]);
 
-    r=openme_load_json_file(fn2,true);
+    r=openme_load_json_file(fn4,false);
 
     /* Remove tmp files */
     f = new File(fn1);
-    f.delete();
+    if (f.exists()) f.delete();
 
     /* Remove tmp files */
     f = new File(fn2);
-    f.delete();
+    if (f.exists()) f.delete();
 
     f = new File(fn3);
-    f.delete();
+    if (f.exists()) f.delete();
+
+    f = new File(fn4);
+    if (f.exists()) f.delete();
 
     if ((Long)r.get("return")>0) return r;
 
