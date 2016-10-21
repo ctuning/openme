@@ -1,0 +1,3 @@
+2016.10.19 - improved openme_run_program function in OpenME for Android
+             (used in https://github.com/ctuning/crowdsource-experiments-using-android-devices
+             and https://github.com/dividiti/crowdsource-video-experiments-on-android)

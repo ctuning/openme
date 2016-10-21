@@ -28,18 +28,20 @@ so please be patient!
 License
 =======
 * OpenME interface is distributed under LGPL v2.1 license
-  (to be able to use in GPL and BSD projects).
+  (to be able to use in GPL and BSD projects)
+  unless specified differently in a source directory
+  (OpenME for Android is licensed under BSD 3 clause license).
 
 Mailing list
 ============
-* http://groups.google.com/group/collective-mind
+* http://groups.google.com/group/collective-knowledge
 
 Developers
 ==========
 This software is being developed by the non-profit 
 cTuning foundation and its volunteers.
 
-(C)opyright 2014-2015 Grigori Fursin, 
+(C)opyright 2014-2016 Grigori Fursin, 
 cTuning foundation and contributors
 
 Minimal requirements
