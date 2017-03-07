@@ -58,3 +58,9 @@ Concepts has been described in the following publications:
 
 If you find OpenME and CK usefl, you are welcome 
 to reference above publications.
+
+Public discussions
+==================
+* [CK mailing list](http://groups.google.com/group/collective-knowledge)
+
+![logo](https://github.com/ctuning/ck-guide-images/blob/master/logo-validated-by-the-community-simple.png)
